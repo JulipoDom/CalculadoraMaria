@@ -56,6 +56,7 @@ function clickShade(id) {
     }, 500);
 }
 function number(num) {
+    let text = document.querySelector('input').value;
     if (firstNumber == true) {
         document.querySelector('input').value = num;
         firstNumber = false;
@@ -101,11 +102,15 @@ nine.onclick = () => {
     clickShade('nine');
 };
 zero.onclick = () => {
-    number(0);
+    let text = document.querySelector('input').value;
+    if (text != '0') {
+        number(0);
+    }
     clickShade('zero');
 };
 point.onclick = () => {
     document.querySelector('input').value += '.';
+    firstNumber = false;
     let text = document.querySelector('input');
     let filter = /[^0-9.,]/gi;
     let filter2 = /[.].*?([.])/gi;
