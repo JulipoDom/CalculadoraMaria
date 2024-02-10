@@ -187,7 +187,8 @@ function operation(o) {
         } else {
             num2 = parseFloat(document.querySelector('input').value);
         }
-        doOperation(o);
+        doOperation(op);
+        op = o;
         document.querySelector('input').value = result;
         num1 = result;
         result = 0;
