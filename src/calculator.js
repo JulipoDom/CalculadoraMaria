@@ -56,9 +56,9 @@ function clickShade(id) {
     }, 500);
 }
 function number(num) {
-    let text = document.querySelector('input').value;
-    if (text == '0' || text == '') {
+    if (firstNumber == true) {
         document.querySelector('input').value = num;
+        firstNumber = false;
     } else {
         document.querySelector('input').value += num;
     }
@@ -98,7 +98,7 @@ eight.onclick = () => {
 };
 nine.onclick = () => {
     number(9);
-    clickShade('ninve');
+    clickShade('nine');
 };
 zero.onclick = () => {
     number(0);
@@ -116,9 +116,10 @@ point.onclick = () => {
 };
 
 ac.onclick = () => {
-    num1 = 0;
+    num1 = null;
     num2 = 0;
     op = '';
+    firstNumber = true;
     document.querySelector('input').value = '0';
     clickShade('ac');
 };
@@ -137,16 +138,14 @@ percent.onclick = () => {
     clickShade('percent');
 };
 
-let num1 = 0,
+let num1 = null,
     num2 = 0,
+    result = 0,
+    firstNumber = true,
     op = '';
 
-equals.onclick = () => {
-    let result;
-
-    num2 = parseFloat(document.querySelector('input').value);
-
-    switch (op) {
+function doOperation(operation) {
+    switch (operation) {
         case '+':
             result = num1 + num2;
             break;
@@ -163,14 +162,43 @@ equals.onclick = () => {
             result = 0;
             break;
     }
+}
+
+equals.onclick = () => {
+    if (firstNumber == true) {
+        num2 = 0;
+    } else {
+        num2 = parseFloat(document.querySelector('input').value);
+    }
+
+    doOperation(op);
+
     document.querySelector('input').value = result;
+    result = 0;
+    num1 = null;
     clickShade('equals');
 };
 
 function operation(o) {
-    num1 = parseFloat(document.querySelector('input').value);
-    op = o;
-    document.querySelector('input').value = 0;
+    if (num1 != null) {
+        console.log('sim');
+        if (firstNumber == true) {
+            num2 = 0;
+        } else {
+            num2 = parseFloat(document.querySelector('input').value);
+        }
+        doOperation(o);
+        document.querySelector('input').value = result;
+        num1 = result;
+        result = 0;
+        firstNumber = true;
+    } else if (num1 == null) {
+        console.log('sus');
+        num1 = parseFloat(document.querySelector('input').value);
+        op = o;
+        document.querySelector('input').value = 0;
+        firstNumber = true;
+    }
 }
 
 plus.onclick = () => {
